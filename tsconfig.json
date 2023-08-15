@@ -3,10 +3,13 @@
     "declaration": true,
     "importHelpers": true,
     "module": "commonjs",
+    "moduleResolution": "node16",
+    "esModuleInterop": true,
     "outDir": "dist",
     "rootDir": "src",
     "strict": true,
-    "target": "es2019"
+    "target": "es2019",
+    "sourceMap": true
   },
   "include": [
     "src/**/*"

@@ -28,8 +28,9 @@ USAGE
 # Commands
 <!-- commands -->
 * [`strap hello PERSON`](#strap-hello-person)
-* [`strap hello world`](#strap-hello-world)
+* [`strap hello:world`](#strap-helloworld)
 * [`strap help [COMMANDS]`](#strap-help-commands)
+* [`strap install NAME`](#strap-install-name)
 * [`strap plugins`](#strap-plugins)
 * [`strap plugins:install PLUGIN...`](#strap-pluginsinstall-plugin)
 * [`strap plugins:inspect PLUGIN...`](#strap-pluginsinspect-plugin)
@@ -38,7 +39,8 @@ USAGE
 * [`strap plugins:uninstall PLUGIN...`](#strap-pluginsuninstall-plugin)
 * [`strap plugins:uninstall PLUGIN...`](#strap-pluginsuninstall-plugin-1)
 * [`strap plugins:uninstall PLUGIN...`](#strap-pluginsuninstall-plugin-2)
-* [`strap plugins update`](#strap-plugins-update)
+* [`strap plugins:update`](#strap-pluginsupdate)
+* [`strap tmp [FILE]`](#strap-tmp-file)
 
 ## `strap hello PERSON`
 
@@ -64,19 +66,19 @@ EXAMPLES
 
 _See code: [dist/commands/hello/index.ts](https://github.com/mortenscheel/strap/blob/v0.0.0/dist/commands/hello/index.ts)_
 
-## `strap hello world`
+## `strap hello:world`
 
 Say hello world
 
 ```
 USAGE
-  $ strap hello world
+  $ strap hello:world
 
 DESCRIPTION
   Say hello world
 
 EXAMPLES
-  $ strap hello world
+  $ strap hello:world
   hello world! (./src/commands/hello/world.ts)
 ```
 
@@ -100,7 +102,27 @@ DESCRIPTION
   Display help for strap.
 ```
 
-_See code: [@oclif/plugin-help](https://github.com/oclif/plugin-help/blob/v5.2.16/src/commands/help.ts)_
+_See code: [@oclif/plugin-help](https://github.com/oclif/plugin-help/blob/v5.2.17/src/commands/help.ts)_
+
+## `strap install NAME`
+
+Install a strap
+
+```
+USAGE
+  $ strap install NAME
+
+ARGUMENTS
+  NAME  Name of the strap to install
+
+DESCRIPTION
+  Install a strap
+
+EXAMPLES
+  $ strap install
+```
+
+_See code: [dist/commands/install.ts](https://github.com/mortenscheel/strap/blob/v0.0.0/dist/commands/install.ts)_
 
 ## `strap plugins`
 
@@ -123,7 +145,7 @@ EXAMPLES
   $ strap plugins
 ```
 
-_See code: [@oclif/plugin-plugins](https://github.com/oclif/plugin-plugins/blob/v3.2.5/src/commands/plugins/index.ts)_
+_See code: [@oclif/plugin-plugins](https://github.com/oclif/plugin-plugins/blob/v3.2.6/src/commands/plugins/index.ts)_
 
 ## `strap plugins:install PLUGIN...`
 
@@ -153,7 +175,7 @@ DESCRIPTION
 
 
 ALIASES
-  $ strap plugins add
+  $ strap plugins:add
 
 EXAMPLES
   $ strap plugins:install myplugin 
@@ -188,7 +210,7 @@ EXAMPLES
   $ strap plugins:inspect myplugin
 ```
 
-_See code: [@oclif/plugin-plugins](https://github.com/oclif/plugin-plugins/blob/v3.2.5/src/commands/plugins/inspect.ts)_
+_See code: [@oclif/plugin-plugins](https://github.com/oclif/plugin-plugins/blob/v3.2.6/src/commands/plugins/inspect.ts)_
 
 ## `strap plugins:install PLUGIN...`
 
@@ -218,7 +240,7 @@ DESCRIPTION
 
 
 ALIASES
-  $ strap plugins add
+  $ strap plugins:add
 
 EXAMPLES
   $ strap plugins:install myplugin 
@@ -228,7 +250,7 @@ EXAMPLES
   $ strap plugins:install someuser/someplugin
 ```
 
-_See code: [@oclif/plugin-plugins](https://github.com/oclif/plugin-plugins/blob/v3.2.5/src/commands/plugins/install.ts)_
+_See code: [@oclif/plugin-plugins](https://github.com/oclif/plugin-plugins/blob/v3.2.6/src/commands/plugins/install.ts)_
 
 ## `strap plugins:link PLUGIN`
 
@@ -257,7 +279,7 @@ EXAMPLES
   $ strap plugins:link myplugin
 ```
 
-_See code: [@oclif/plugin-plugins](https://github.com/oclif/plugin-plugins/blob/v3.2.5/src/commands/plugins/link.ts)_
+_See code: [@oclif/plugin-plugins](https://github.com/oclif/plugin-plugins/blob/v3.2.6/src/commands/plugins/link.ts)_
 
 ## `strap plugins:uninstall PLUGIN...`
 
@@ -278,8 +300,8 @@ DESCRIPTION
   Removes a plugin from the CLI.
 
 ALIASES
-  $ strap plugins unlink
-  $ strap plugins remove
+  $ strap plugins:unlink
+  $ strap plugins:remove
 ```
 
 ## `strap plugins:uninstall PLUGIN...`
@@ -301,11 +323,11 @@ DESCRIPTION
   Removes a plugin from the CLI.
 
 ALIASES
-  $ strap plugins unlink
-  $ strap plugins remove
+  $ strap plugins:unlink
+  $ strap plugins:remove
 ```
 
-_See code: [@oclif/plugin-plugins](https://github.com/oclif/plugin-plugins/blob/v3.2.5/src/commands/plugins/uninstall.ts)_
+_See code: [@oclif/plugin-plugins](https://github.com/oclif/plugin-plugins/blob/v3.2.6/src/commands/plugins/uninstall.ts)_
 
 ## `strap plugins:uninstall PLUGIN...`
 
@@ -326,17 +348,17 @@ DESCRIPTION
   Removes a plugin from the CLI.
 
 ALIASES
-  $ strap plugins unlink
-  $ strap plugins remove
+  $ strap plugins:unlink
+  $ strap plugins:remove
 ```
 
-## `strap plugins update`
+## `strap plugins:update`
 
 Update installed plugins.
 
 ```
 USAGE
-  $ strap plugins update [-h] [-v]
+  $ strap plugins:update [-h] [-v]
 
 FLAGS
   -h, --help     Show CLI help.
@@ -346,5 +368,29 @@ DESCRIPTION
   Update installed plugins.
 ```
 
-_See code: [@oclif/plugin-plugins](https://github.com/oclif/plugin-plugins/blob/v3.2.5/src/commands/plugins/update.ts)_
+_See code: [@oclif/plugin-plugins](https://github.com/oclif/plugin-plugins/blob/v3.2.6/src/commands/plugins/update.ts)_
+
+## `strap tmp [FILE]`
+
+describe the command here
+
+```
+USAGE
+  $ strap tmp [FILE] [-n <value>] [-f]
+
+ARGUMENTS
+  FILE  file to read
+
+FLAGS
+  -f, --force
+  -n, --name=<value>  name to print
+
+DESCRIPTION
+  describe the command here
+
+EXAMPLES
+  $ strap tmp
+```
+
+_See code: [dist/commands/tmp.ts](https://github.com/mortenscheel/strap/blob/v0.0.0/dist/commands/tmp.ts)_
 <!-- commandsstop -->

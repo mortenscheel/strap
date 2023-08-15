@@ -2,5 +2,25 @@
   "extends": [
     "oclif",
     "oclif-typescript"
-  ]
+  ],
+  "plugins": ["import"],
+  "rules": {
+    "semi": ["error", "always"],
+    "unicorn/no-abusive-eslint-disable": "off",
+    "node/no-missing-import": "off",
+    "import/no-unresolved": "error"
+  },
+  "settings": {
+    "import/parsers": {
+      "@typescript-eslint/parser": [
+        ".ts",
+        ".tsx"
+      ]
+    },
+    "import/resolver": {
+      "typescript": {
+        "alwaysTryTypes": true
+      }
+    }
+  }
 }
