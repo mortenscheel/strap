@@ -1,14 +1,34 @@
 // @ts-expect-error Not allowed to import ESM types from CJS
 import type {ExecaReturnValue, Options} from 'execa';
-import {existsSync, readFileSync} from 'node:fs';
+
+import {existsSync, readFileSync, writeFileSync} from 'node:fs';
 import {Package} from './types/composer';
-import {writeFileSync} from 'node:fs';
+import {debug} from 'oclif/lib/log';
+import type {checkbox, confirm, editor, expand, input, password, rawlist, select} from '@inquirer/prompts';
+import yaml from 'js-yaml';
+
+interface Inquirer {
+  checkbox: typeof checkbox;
+  confirm: typeof confirm;
+  editor: typeof editor;
+  expand: typeof expand;
+  input: typeof input;
+  password: typeof password;
+  rawlist: typeof rawlist;
+  select: typeof select;
+
+}
 
 export const exec = async (
   binary: string,
   args: string[],
   options: Options = {},
-): Promise<ExecaReturnValue> => (await import('execa')).execa(binary, args, options || {});
+): Promise<ExecaReturnValue> => {
+  return (await import('execa')).execa(binary, args, options || {}).then(result => {
+    debug('exec %s (%s)\ncode: %s\nstdout: %s\nstderr: %s', binary, args.join(', '), result.exitCode, result.stdout || 'N/A', result.stderr || 'N/A');
+    return result;
+  });
+};
 
 export const execString = async (
   commandString: string,
@@ -66,3 +86,9 @@ export const isLaravelProject = (): boolean => {
 export const sleep = async (ms: number): Promise<void> => new Promise(resolve => {
   setTimeout(resolve, ms);
 });
+
+export const inquirer = async (): Promise<Inquirer> => {
+  return import('@inquirer/prompts');
+};
+
+export {yaml};

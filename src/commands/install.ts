@@ -1,5 +1,5 @@
 import {Args, Command} from '@oclif/core';
-import {findStrap} from '../straps';
+import {resolveStrap} from '../straps';
 import Listr, {ListrContext} from 'listr';
 
 export default class Install extends Command {
@@ -16,16 +16,21 @@ export default class Install extends Command {
   public async run(): Promise<void> {
     const {args} = await this.parse(Install);
     const name = args.name;
-    const strap = findStrap(name);
+    const strap = await resolveStrap(name, this.config);
     if (!strap) {
       this.log(`${name} not found`);
       this.exit(1);
     }
 
     if (strap.skip) {
-      const skipMessage = await strap.skip();
-      if (skipMessage) {
-        this.error(skipMessage);
+      const skips = Array.isArray(strap.skip) ? strap.skip : [strap.skip];
+      for (const skip of skips) {
+        // eslint-disable-next-line no-await-in-loop
+        const skipReason = await skip();
+        if (skipReason) {
+          this.log(skipReason);
+          this.exit(1);
+        }
       }
     }
 
@@ -34,12 +39,10 @@ export default class Install extends Command {
       context = await strap.context();
     }
 
-    const tasks = new Listr(strap.tasks);
+    const tasks = new Listr(strap.tasks, strap.options || {});
     tasks.run(context)
     .catch(error => {
-      console.error(error);
+      this.error(error);
     });
-
-    this.log('ok');
   }
 }

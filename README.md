@@ -27,8 +27,6 @@ USAGE
 <!-- usagestop -->
 # Commands
 <!-- commands -->
-* [`strap hello PERSON`](#strap-hello-person)
-* [`strap hello:world`](#strap-helloworld)
 * [`strap help [COMMANDS]`](#strap-help-commands)
 * [`strap install NAME`](#strap-install-name)
 * [`strap plugins`](#strap-plugins)
@@ -40,49 +38,6 @@ USAGE
 * [`strap plugins:uninstall PLUGIN...`](#strap-pluginsuninstall-plugin-1)
 * [`strap plugins:uninstall PLUGIN...`](#strap-pluginsuninstall-plugin-2)
 * [`strap plugins:update`](#strap-pluginsupdate)
-* [`strap tmp [FILE]`](#strap-tmp-file)
-
-## `strap hello PERSON`
-
-Say hello
-
-```
-USAGE
-  $ strap hello PERSON -f <value>
-
-ARGUMENTS
-  PERSON  Person to say hello to
-
-FLAGS
-  -f, --from=<value>  (required) Who is saying hello
-
-DESCRIPTION
-  Say hello
-
-EXAMPLES
-  $ oex hello friend --from oclif
-  hello friend from oclif! (./src/commands/hello/index.ts)
-```
-
-_See code: [dist/commands/hello/index.ts](https://github.com/mortenscheel/strap/blob/v0.0.0/dist/commands/hello/index.ts)_
-
-## `strap hello:world`
-
-Say hello world
-
-```
-USAGE
-  $ strap hello:world
-
-DESCRIPTION
-  Say hello world
-
-EXAMPLES
-  $ strap hello:world
-  hello world! (./src/commands/hello/world.ts)
-```
-
-_See code: [dist/commands/hello/world.ts](https://github.com/mortenscheel/strap/blob/v0.0.0/dist/commands/hello/world.ts)_
 
 ## `strap help [COMMANDS]`
 
@@ -369,28 +324,4 @@ DESCRIPTION
 ```
 
 _See code: [@oclif/plugin-plugins](https://github.com/oclif/plugin-plugins/blob/v3.2.6/src/commands/plugins/update.ts)_
-
-## `strap tmp [FILE]`
-
-describe the command here
-
-```
-USAGE
-  $ strap tmp [FILE] [-n <value>] [-f]
-
-ARGUMENTS
-  FILE  file to read
-
-FLAGS
-  -f, --force
-  -n, --name=<value>  name to print
-
-DESCRIPTION
-  describe the command here
-
-EXAMPLES
-  $ strap tmp
-```
-
-_See code: [dist/commands/tmp.ts](https://github.com/mortenscheel/strap/blob/v0.0.0/dist/commands/tmp.ts)_
 <!-- commandsstop -->
