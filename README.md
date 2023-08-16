@@ -18,7 +18,7 @@ $ npm install -g strap
 $ strap COMMAND
 running command...
 $ strap (--version)
-strap/0.0.0 darwin-arm64 node-v20.1.0
+strap/0.0.1 darwin-arm64 node-v20.1.0
 $ strap --help [COMMAND]
 USAGE
   $ strap COMMAND
@@ -77,7 +77,7 @@ EXAMPLES
   $ strap install
 ```
 
-_See code: [dist/commands/install.ts](https://github.com/mortenscheel/strap/blob/v0.0.0/dist/commands/install.ts)_
+_See code: [dist/commands/install.ts](https://github.com/mortenscheel/strap/blob/v0.0.1/dist/commands/install.ts)_
 
 ## `strap plugins`
 

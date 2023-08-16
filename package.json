@@ -1,6 +1,6 @@
 {
   "name": "strap",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "Install packages with ease.",
   "author": "Morten Scheel @mortenscheel",
   "bin": {
