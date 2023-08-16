@@ -29,6 +29,7 @@ USAGE
 <!-- commands -->
 * [`strap help [COMMANDS]`](#strap-help-commands)
 * [`strap install NAME`](#strap-install-name)
+* [`strap list`](#strap-list)
 * [`strap plugins`](#strap-plugins)
 * [`strap plugins:install PLUGIN...`](#strap-pluginsinstall-plugin)
 * [`strap plugins:inspect PLUGIN...`](#strap-pluginsinspect-plugin)
@@ -78,6 +79,23 @@ EXAMPLES
 ```
 
 _See code: [dist/commands/install.ts](https://github.com/mortenscheel/strap/blob/v0.0.1/dist/commands/install.ts)_
+
+## `strap list`
+
+List all snaps
+
+```
+USAGE
+  $ strap list
+
+DESCRIPTION
+  List all snaps
+
+EXAMPLES
+  $ strap list
+```
+
+_See code: [dist/commands/list.ts](https://github.com/mortenscheel/strap/blob/v0.0.1/dist/commands/list.ts)_
 
 ## `strap plugins`
 

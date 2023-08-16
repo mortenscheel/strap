@@ -16,7 +16,7 @@ export default class Install extends Command {
   public async run(): Promise<void> {
     const {args} = await this.parse(Install);
     const name = args.name;
-    const strap = await resolveStrap(name, this.config);
+    const strap = await resolveStrap(name, this.config.configDir);
     if (!strap) {
       this.log(`${name} not found`);
       this.exit(1);

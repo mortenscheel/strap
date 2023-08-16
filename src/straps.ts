@@ -1,23 +1,22 @@
 import Listr, {ListrContext, ListrOptions, ListrTask} from 'listr';
 import path from 'node:path';
-import {existsSync, readdirSync, mkdirSync, copyFileSync} from 'node:fs';
+import {copyFileSync, existsSync, mkdirSync, readdirSync} from 'node:fs';
 import * as util from './util';
-import {Config} from '@oclif/core';
 
 export interface Strap {
   name: string;
   tasks: ListrTask[];
   skip?: () => Promise<string | boolean> | Promise<string | boolean>[];
   context?: () => Promise<ListrContext>;
-  options?: ListrOptions
+  options?: ListrOptions;
 }
 
 let straps: Strap[] | null = null;
 
-export const resolveStrap = async (name: string, config: Config): Promise<Strap | null> => {
+export const allStraps = (configDir: string): Strap[] => {
   if (straps === null) {
     straps = [];
-    const strapsFolder = path.resolve(config.configDir, 'straps');
+    const strapsFolder = path.resolve(configDir, 'straps');
     if (!existsSync(strapsFolder)) {
       mkdirSync(strapsFolder, {recursive: true});
       // Add util.d.ts
@@ -45,10 +44,15 @@ export const resolveStrap = async (name: string, config: Config): Promise<Strap 
     }
   }
 
-  return straps.find(strap => strap.name === name) || null;
+  return straps;
 };
 
-const parseTask = (task:ListrTask): ListrTask => {
+export const resolveStrap = async (
+  name: string,
+  configDir: string,
+): Promise<Strap | null> => allStraps(configDir).find(strap => strap.name === name) || null;
+
+const parseTask = (task: ListrTask): ListrTask => {
   if (Array.isArray(task.task)) {
     const tasks = task.task.map(task => parseTask(task));
     task.task = () => new Listr(tasks);
