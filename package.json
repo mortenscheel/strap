@@ -49,7 +49,6 @@
     "typescript": "^4.9.5"
   },
   "oclif": {
-    "default": "install",
     "bin": "strap",
     "dirname": "strap",
     "commands": "./dist/commands",
