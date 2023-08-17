@@ -3,10 +3,10 @@ import {resolveStrap} from '../straps';
 import Listr, {ListrContext} from 'listr';
 
 export default class Install extends Command {
-  static description = 'Install a strap';
+  static description = 'install a strap';
 
   static examples = [
-    '<%= config.bin %> <%= command.id %>',
+    '<%= config.bin %> <%= command.id %> some-strap',
   ];
 
   static args = {

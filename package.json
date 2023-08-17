@@ -19,8 +19,6 @@
   "dependencies": {
     "@inquirer/prompts": "^3.0.2",
     "@oclif/core": "^2",
-    "@oclif/plugin-help": "^5",
-    "@oclif/plugin-plugins": "^3.2.0",
     "@types/execa": "^2.0.0",
     "@types/inquirer": "^9.0.3",
     "@types/js-yaml": "^4.0.5",
@@ -30,6 +28,8 @@
     "execa": "^7.2.0",
     "js-yaml": "^4.1.0",
     "listr": "^0.14.3",
+    "open": "^9.1.0",
+    "slugify": "^1.6.6",
     "tsconfig-paths": "^4.2.0"
   },
   "devDependencies": {
@@ -49,19 +49,16 @@
     "typescript": "^4.9.5"
   },
   "oclif": {
+    "default": "install",
     "bin": "strap",
     "dirname": "strap",
     "commands": "./dist/commands",
-    "plugins": [
-      "@oclif/plugin-help",
-      "@oclif/plugin-plugins"
-    ],
+    "plugins": [],
+    "macos": {
+      "identifier": "com.mortenscheel.strap"
+    },
     "topicSeparator": ":",
-    "topics": {
-      "hello": {
-        "description": "Say hello to the world and others"
-      }
-    }
+    "topics": {}
   },
   "scripts": {
     "build": "shx rm -rf dist && tsc -b",

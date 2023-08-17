@@ -9,6 +9,7 @@ oclif example Hello World CLI
 
 <!-- toc -->
 * [Usage](#usage)
+* [Examples](#examples)
 * [Commands](#commands)
 <!-- tocstop -->
 # Usage
@@ -25,44 +26,37 @@ USAGE
 ...
 ```
 <!-- usagestop -->
+# Examples
+See the examples folder
 # Commands
 <!-- commands -->
-* [`strap help [COMMANDS]`](#strap-help-commands)
+* [`strap create [NAME]`](#strap-create-name)
 * [`strap install NAME`](#strap-install-name)
 * [`strap list`](#strap-list)
-* [`strap plugins`](#strap-plugins)
-* [`strap plugins:install PLUGIN...`](#strap-pluginsinstall-plugin)
-* [`strap plugins:inspect PLUGIN...`](#strap-pluginsinspect-plugin)
-* [`strap plugins:install PLUGIN...`](#strap-pluginsinstall-plugin-1)
-* [`strap plugins:link PLUGIN`](#strap-pluginslink-plugin)
-* [`strap plugins:uninstall PLUGIN...`](#strap-pluginsuninstall-plugin)
-* [`strap plugins:uninstall PLUGIN...`](#strap-pluginsuninstall-plugin-1)
-* [`strap plugins:uninstall PLUGIN...`](#strap-pluginsuninstall-plugin-2)
-* [`strap plugins:update`](#strap-pluginsupdate)
 
-## `strap help [COMMANDS]`
+## `strap create [NAME]`
 
-Display help for strap.
+Create a new strap
 
 ```
 USAGE
-  $ strap help [COMMANDS] [-n]
+  $ strap create [NAME]
 
 ARGUMENTS
-  COMMANDS  Command to show help for.
-
-FLAGS
-  -n, --nested-commands  Include all nested commands in the output.
+  NAME  name of the new strap
 
 DESCRIPTION
-  Display help for strap.
+  Create a new strap
+
+EXAMPLES
+  $ strap create some-strap
 ```
 
-_See code: [@oclif/plugin-help](https://github.com/oclif/plugin-help/blob/v5.2.17/src/commands/help.ts)_
+_See code: [dist/commands/create.ts](https://github.com/mortenscheel/strap/blob/v0.0.1/dist/commands/create.ts)_
 
 ## `strap install NAME`
 
-Install a strap
+install a strap
 
 ```
 USAGE
@@ -72,10 +66,10 @@ ARGUMENTS
   NAME  Name of the strap to install
 
 DESCRIPTION
-  Install a strap
+  install a strap
 
 EXAMPLES
-  $ strap install
+  $ strap install some-strap
 ```
 
 _See code: [dist/commands/install.ts](https://github.com/mortenscheel/strap/blob/v0.0.1/dist/commands/install.ts)_
@@ -86,7 +80,19 @@ List all snaps
 
 ```
 USAGE
-  $ strap list
+  $ strap list [--columns <value> | -x] [--sort <value>] [--filter <value>] [--output csv|json|yaml |  |
+    [--csv | --no-truncate]] [--no-header | ]
+
+FLAGS
+  -x, --extended     show extra columns
+  --columns=<value>  only show provided columns (comma-separated)
+  --csv              output is csv format [alias: --output=csv]
+  --filter=<value>   filter property by partial string matching, ex: name=foo
+  --no-header        hide table header from output
+  --no-truncate      do not truncate output to fit screen
+  --output=<option>  output in a more machine friendly format
+                     <options: csv|json|yaml>
+  --sort=<value>     property to sort by (prepend '-' for descending)
 
 DESCRIPTION
   List all snaps
@@ -96,250 +102,4 @@ EXAMPLES
 ```
 
 _See code: [dist/commands/list.ts](https://github.com/mortenscheel/strap/blob/v0.0.1/dist/commands/list.ts)_
-
-## `strap plugins`
-
-List installed plugins.
-
-```
-USAGE
-  $ strap plugins [--json] [--core]
-
-FLAGS
-  --core  Show core plugins.
-
-GLOBAL FLAGS
-  --json  Format output as json.
-
-DESCRIPTION
-  List installed plugins.
-
-EXAMPLES
-  $ strap plugins
-```
-
-_See code: [@oclif/plugin-plugins](https://github.com/oclif/plugin-plugins/blob/v3.2.6/src/commands/plugins/index.ts)_
-
-## `strap plugins:install PLUGIN...`
-
-Installs a plugin into the CLI.
-
-```
-USAGE
-  $ strap plugins:install PLUGIN...
-
-ARGUMENTS
-  PLUGIN  Plugin to install.
-
-FLAGS
-  -f, --force    Run yarn install with force flag.
-  -h, --help     Show CLI help.
-  -v, --verbose
-
-DESCRIPTION
-  Installs a plugin into the CLI.
-  Can be installed from npm or a git url.
-
-  Installation of a user-installed plugin will override a core plugin.
-
-  e.g. If you have a core plugin that has a 'hello' command, installing a user-installed plugin with a 'hello' command
-  will override the core plugin implementation. This is useful if a user needs to update core plugin functionality in
-  the CLI without the need to patch and update the whole CLI.
-
-
-ALIASES
-  $ strap plugins:add
-
-EXAMPLES
-  $ strap plugins:install myplugin 
-
-  $ strap plugins:install https://github.com/someuser/someplugin
-
-  $ strap plugins:install someuser/someplugin
-```
-
-## `strap plugins:inspect PLUGIN...`
-
-Displays installation properties of a plugin.
-
-```
-USAGE
-  $ strap plugins:inspect PLUGIN...
-
-ARGUMENTS
-  PLUGIN  [default: .] Plugin to inspect.
-
-FLAGS
-  -h, --help     Show CLI help.
-  -v, --verbose
-
-GLOBAL FLAGS
-  --json  Format output as json.
-
-DESCRIPTION
-  Displays installation properties of a plugin.
-
-EXAMPLES
-  $ strap plugins:inspect myplugin
-```
-
-_See code: [@oclif/plugin-plugins](https://github.com/oclif/plugin-plugins/blob/v3.2.6/src/commands/plugins/inspect.ts)_
-
-## `strap plugins:install PLUGIN...`
-
-Installs a plugin into the CLI.
-
-```
-USAGE
-  $ strap plugins:install PLUGIN...
-
-ARGUMENTS
-  PLUGIN  Plugin to install.
-
-FLAGS
-  -f, --force    Run yarn install with force flag.
-  -h, --help     Show CLI help.
-  -v, --verbose
-
-DESCRIPTION
-  Installs a plugin into the CLI.
-  Can be installed from npm or a git url.
-
-  Installation of a user-installed plugin will override a core plugin.
-
-  e.g. If you have a core plugin that has a 'hello' command, installing a user-installed plugin with a 'hello' command
-  will override the core plugin implementation. This is useful if a user needs to update core plugin functionality in
-  the CLI without the need to patch and update the whole CLI.
-
-
-ALIASES
-  $ strap plugins:add
-
-EXAMPLES
-  $ strap plugins:install myplugin 
-
-  $ strap plugins:install https://github.com/someuser/someplugin
-
-  $ strap plugins:install someuser/someplugin
-```
-
-_See code: [@oclif/plugin-plugins](https://github.com/oclif/plugin-plugins/blob/v3.2.6/src/commands/plugins/install.ts)_
-
-## `strap plugins:link PLUGIN`
-
-Links a plugin into the CLI for development.
-
-```
-USAGE
-  $ strap plugins:link PLUGIN
-
-ARGUMENTS
-  PATH  [default: .] path to plugin
-
-FLAGS
-  -h, --help     Show CLI help.
-  -v, --verbose
-
-DESCRIPTION
-  Links a plugin into the CLI for development.
-  Installation of a linked plugin will override a user-installed or core plugin.
-
-  e.g. If you have a user-installed or core plugin that has a 'hello' command, installing a linked plugin with a 'hello'
-  command will override the user-installed or core plugin implementation. This is useful for development work.
-
-
-EXAMPLES
-  $ strap plugins:link myplugin
-```
-
-_See code: [@oclif/plugin-plugins](https://github.com/oclif/plugin-plugins/blob/v3.2.6/src/commands/plugins/link.ts)_
-
-## `strap plugins:uninstall PLUGIN...`
-
-Removes a plugin from the CLI.
-
-```
-USAGE
-  $ strap plugins:uninstall PLUGIN...
-
-ARGUMENTS
-  PLUGIN  plugin to uninstall
-
-FLAGS
-  -h, --help     Show CLI help.
-  -v, --verbose
-
-DESCRIPTION
-  Removes a plugin from the CLI.
-
-ALIASES
-  $ strap plugins:unlink
-  $ strap plugins:remove
-```
-
-## `strap plugins:uninstall PLUGIN...`
-
-Removes a plugin from the CLI.
-
-```
-USAGE
-  $ strap plugins:uninstall PLUGIN...
-
-ARGUMENTS
-  PLUGIN  plugin to uninstall
-
-FLAGS
-  -h, --help     Show CLI help.
-  -v, --verbose
-
-DESCRIPTION
-  Removes a plugin from the CLI.
-
-ALIASES
-  $ strap plugins:unlink
-  $ strap plugins:remove
-```
-
-_See code: [@oclif/plugin-plugins](https://github.com/oclif/plugin-plugins/blob/v3.2.6/src/commands/plugins/uninstall.ts)_
-
-## `strap plugins:uninstall PLUGIN...`
-
-Removes a plugin from the CLI.
-
-```
-USAGE
-  $ strap plugins:uninstall PLUGIN...
-
-ARGUMENTS
-  PLUGIN  plugin to uninstall
-
-FLAGS
-  -h, --help     Show CLI help.
-  -v, --verbose
-
-DESCRIPTION
-  Removes a plugin from the CLI.
-
-ALIASES
-  $ strap plugins:unlink
-  $ strap plugins:remove
-```
-
-## `strap plugins:update`
-
-Update installed plugins.
-
-```
-USAGE
-  $ strap plugins:update [-h] [-v]
-
-FLAGS
-  -h, --help     Show CLI help.
-  -v, --verbose
-
-DESCRIPTION
-  Update installed plugins.
-```
-
-_See code: [@oclif/plugin-plugins](https://github.com/oclif/plugin-plugins/blob/v3.2.6/src/commands/plugins/update.ts)_
 <!-- commandsstop -->
