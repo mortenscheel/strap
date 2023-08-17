@@ -17,7 +17,6 @@ export default class Create extends Command {
   public async run(): Promise<void> {
     const {args} = await this.parse(Create);
     let name = args.name;
-    this.log('name: ' + name);
     if (!name) {
       name = await (await inquirer()).input({message: 'Name of the new strap?'});
       if (!name) {
@@ -25,9 +24,8 @@ export default class Create extends Command {
       }
     }
 
-    this.log('name: ' + name);
-
     const strapPath = createStrap(name, this.config.configDir);
+    this.log(strapPath);
     const open = (await import('open')).default;
     await open(strapPath);
   }
