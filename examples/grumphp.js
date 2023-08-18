@@ -1,16 +1,16 @@
 /**
  *
- * @param {import(".").StrapUtilities} util
+ * @param {import(".").Util} util
  * @returns
  */
 module.exports = function (util) {
   return {
     name: 'grumphp',
     context: async () => {
-      const selection = await (
-        await util.inquirer()
-      ).checkbox({
+      const selection = await util.inquirer.prompt({
+        type: 'checkbox',
         message: 'Select pre-commit checks',
+        name: 'checks',
         choices: [
           { name: 'PHPUnit', value: 'phpunit' },
           { name: 'PhpStan', value: 'phpstan' },
@@ -18,49 +18,50 @@ module.exports = function (util) {
           { name: 'Pint', value: 'pint' },
         ],
       });
-      return selection.reduce(
+      return selection.checks.reduce(
         (acc, val) => {
           acc[val] = true;
           return acc;
         },
         {
-          configExists: util.fileExists('grumphp.yml'),
+          configExists: util.fs.existsSync('grumphp.yml'),
         }
       );
     },
     tasks: [
       {
         title: 'Install GrumPHP',
-        skip: () => util.composerHasPackage('phpro/grumphp'),
+        skip: () => util.project.hasComposerPackage('phpro/grumphp'),
         task: [
           {
             title: 'Enable composer plugin',
-            task: () => util.execString('composer config --no-plugins allow-plugins.phpro/grumphp true'),
+            task: () => util.execa('composer', ['config', '--no-plugins', 'allow-plugins.phpro/grumphp', 'true']),
           },
           {
             title: 'Install package',
-            task: () => util.composer(['require', '--dev', 'phpro/grumphp']),
+            task: () => util.execa('composer', ['require', '--dev', 'phpro/grumphp']),
           },
         ],
       },
       {
         title: 'Install Pint plugin',
         enabled: (ctx) => !!ctx.pint,
-        task: () => util.composer(['require', '--dev', 'yieldstudio/grumphp-laravel-pint']),
-        skip: () => util.composerHasPackage('yieldstudio/grumphp-laravel-pint'),
+        task: () => util.execa('composer', ['require', '--dev', 'yieldstudio/grumphp-laravel-pint']),
+        skip: () => util.project.hasComposerPackage('yieldstudio/grumphp-laravel-pint'),
       },
       {
         title: 'Install Composer Normalizer',
         enabled: (ctx) => !!ctx.normalize,
-        skip: () => util.composerHasPackage('ergebnis/composer-normalize'),
+        skip: () => util.project.hasComposerPackage('ergebnis/composer-normalize'),
         task: [
           {
             title: 'Enable composer plugin',
-            task: () => util.execString('composer config --no-plugins allow-plugins.ergebnis/composer-normalize true'),
+            task: () =>
+              util.execa('composer', ['config', '--no-plugins', 'allow-plugins.ergebnis/composer-normalize', 'true']),
           },
           {
             title: 'Install package',
-            task: () => util.composer(['require', '--dev', 'ergebnis/composer-normalize']),
+            task: () => util.execa('composer', ['require', '--dev', 'ergebnis/composer-normalize']),
           },
         ],
       },
@@ -89,7 +90,7 @@ module.exports = function (util) {
             config.tasks.phpunit = null;
           }
           const yaml = util.yaml.dump({ grumphp: config });
-          util.writeFile('grumphp.yml', yaml);
+          util.fs.writeFileSync('grumphp.yml', yaml, 'utf-8');
         },
       },
     ],

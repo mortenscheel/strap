@@ -1,7 +1,7 @@
 import Listr, {ListrContext, ListrOptions, ListrTask} from 'listr';
 import path from 'node:path';
 import {copyFileSync, readFileSync, existsSync, mkdirSync, readdirSync, writeFileSync} from 'node:fs';
-import * as util from './util';
+import {util} from './util';
 import slugify from 'slugify';
 
 export interface Strap {

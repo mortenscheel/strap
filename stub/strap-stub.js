@@ -11,7 +11,7 @@ module.exports = function (util) {
     },
     skip: () => false, // Return true (or string) if this strap shouldn't run
     tasks: [
-      // See https://github.com/SamVerschueren/listr
+      // See https://github.com/SBoudrias/Inquirer.js/tree/master/packages/inquirer
     ],
   };
 };

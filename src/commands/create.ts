@@ -1,5 +1,5 @@
 import {Args, Command} from '@oclif/core';
-import {inquirer} from '../util';
+import inquirer from 'inquirer';
 import {createStrap} from '../straps';
 
 export default class Create extends Command {
@@ -18,7 +18,7 @@ export default class Create extends Command {
     const {args} = await this.parse(Create);
     let name = args.name;
     if (!name) {
-      name = await (await inquirer()).input({message: 'Name of the new strap?'});
+      name = (await inquirer.prompt({type: 'input', name: 'name', message: 'Name of the new strap?'})).name;
       if (!name) {
         this.error('No name provided');
       }

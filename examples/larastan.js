@@ -1,42 +1,50 @@
 /**
  *
- * @param {import(".").StrapUtilities} util
+ * @param {import(".").Util} util
  * @returns
  */
 module.exports = function (util) {
   return {
     name: 'larastan',
-    skip: async () => (util.isLaravelProject() ? false : 'Larastan requires a Laravel project'),
+    skip: async () => (util.project.isLaravel() ? false : 'Larastan requires a Laravel project'),
+    context: async () => {
+      return await util.inquirer.prompt([
+        {
+          type: 'number',
+          name: 'level',
+          message: 'Strictness level (1-9)',
+          default: 8,
+        },
+        {
+          type: 'confirm',
+          name: 'checkMissingIterableValueType',
+          message: 'Check missing iterable value type',
+          default: false,
+        },
+      ]);
+    },
     tasks: [
       {
         title: 'Install Larastan',
         skip: async () =>
-          (await util.composerHasPackage('nunomaduro/larastan')) ? 'Larastan is already installed' : false,
-        task: () => util.composer(['require', 'nunomaduro/larastan', '--dev']),
+          (await util.project.hasComposerPackage('nunomaduro/larastan')) ? 'Larastan is already installed' : false,
+        task: () => util.execa('composer', ['require', 'nunomaduro/larastan', '--dev']),
       },
       {
-        title: 'Add phpstan.neon',
-        skip: () => (util.fileExists('phpstan.neon') ? 'phpstan.neon already exists' : false),
-        task: () =>
-          util.writeFile(
-            'phpstan.neon',
-            `
-  includes:
-      - ./vendor/nunomaduro/larastan/extension.neon
-  
-  parameters:
-      paths:
-          - app/
-  
-      # Level 9 is the highest level
-      level: 8
-  
-      excludePaths:
-      #    - ./app/Console/Commands/Local/*
-  
-      checkMissingIterableValueType: false
-  `
-          ),
+        title: 'Generate phpstan.neon',
+        skip: () => (util.fs.existsSync('phpstan.neon') ? 'phpstan.neon already exists' : false),
+        task: (ctx) => {
+          const config = {
+            includes: ['./vendor/nunomaduro/larastan/extension.neon'],
+            parameters: {
+              paths: ['app/'],
+              level: ctx.level,
+              excludePaths: [],
+              checkMissingIterableValueType: ctx.checkMissingIterableValueType,
+            },
+          };
+          util.fs.writeFileSync('phpstan.neon', util.yaml.dump(config), 'utf-8');
+        },
       },
     ],
   };

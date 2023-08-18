@@ -31,6 +31,7 @@ See the examples folder
 # Commands
 <!-- commands -->
 * [`strap create [NAME]`](#strap-create-name)
+* [`strap edit NAME`](#strap-edit-name)
 * [`strap install NAME`](#strap-install-name)
 * [`strap list`](#strap-list)
 
@@ -53,6 +54,26 @@ EXAMPLES
 ```
 
 _See code: [dist/commands/create.ts](https://github.com/mortenscheel/strap/blob/v0.0.1/dist/commands/create.ts)_
+
+## `strap edit NAME`
+
+edit a strap file
+
+```
+USAGE
+  $ strap edit NAME
+
+ARGUMENTS
+  NAME  strap name
+
+DESCRIPTION
+  edit a strap file
+
+EXAMPLES
+  $ strap edit some-strap
+```
+
+_See code: [dist/commands/edit.ts](https://github.com/mortenscheel/strap/blob/v0.0.1/dist/commands/edit.ts)_
 
 ## `strap install NAME`
 

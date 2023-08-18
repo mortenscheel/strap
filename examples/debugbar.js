@@ -1,6 +1,6 @@
 /**
  *
- * @param {import(".").StrapUtilities} util
+ * @param {import(".").Util} util
  * @returns
  */
 module.exports = function (util) {
@@ -9,13 +9,13 @@ module.exports = function (util) {
     tasks: [
       {
         title: 'Install composer dependencies',
-        task: () => util.execString('composer require --dev barryvdh/laravel-debugbar'),
-        skip: () => util.composerHasPackage('barryvdh/laravel-debugbar'),
+        task: () => util.execa('composer', ['require', '--dev', 'barryvdh/laravel-debugbar']),
+        skip: () => util.project.hasComposerPackage('barryvdh/laravel-debugbar'),
       },
       {
         title: 'Publish config',
-        task: () => util.execString('php artisan vendor:publish --provider=Barryvdh\\Debugbar\\ServiceProvider'),
-        skip: () => util.fileExists('config/debugbar.php'),
+        task: () => util.execa('php', ['artisan', 'vendor:publish', '--provider=Barryvdh\\Debugbar\\ServiceProvider']),
+        skip: () => util.fs.existsSync('config/debugbar.php'),
       },
     ],
   };

@@ -1,22 +1,22 @@
 /**
  *
- * @param {import(".").StrapUtilities} util
- * @returns function
+ * @param {import(".").Util} util
+ * @returns
  */
 module.exports = function (util) {
   return {
     name: 'prettier',
     context: async () => {
-      const selection = await (
-        await util.inquirer()
-      ).checkbox({
-        message: 'Select plugins',
+      const selection = await util.inquirer.prompt({
+        type: 'checkbox',
+        name: 'plugins',
         choices: [
-          {name: 'Blade', value: 'blade'},
-          {name: 'TailwindCSS', value: 'tailwind'},
+          { name: 'Blade', value: 'blade' },
+          { name: 'TailwindCSS', value: 'tailwind' },
         ],
       });
-      return selection.reduce((acc, val) => {
+
+      return selection.plugins.reduce((acc, val) => {
         acc[val] = true;
         return acc;
       }, {});
@@ -24,19 +24,19 @@ module.exports = function (util) {
     tasks: [
       {
         title: 'Install Packages',
-        task: ctx => {
+        task: (ctx) => {
           const packages = [
             'prettier',
-            ...(ctx.blade ? ['@shufo/prettier-plugin-blade'] : []),
-            ...(ctx.tailwind ? ['prettier-plugin-tailwindcss'] : []),
+            ...(!!ctx.blade ? ['@shufo/prettier-plugin-blade'] : []),
+            ...(!!ctx.tailwind ? ['prettier-plugin-tailwindcss'] : []),
           ];
-          return util.exec('npm', ['install', '--save-dev', ...packages]);
+          return util.execa('npm', ['install', '--save-dev', ...packages]);
         },
       },
       {
         title: 'Generate config',
-        skip: () => util.fileExists('.prettierrc'),
-        task: ctx => {
+        skip: () => util.fs.existsSync('.prettierrc'),
+        task: (ctx) => {
           const config = {
             trailingComma: 'es5',
             tabWidth: 4,
@@ -55,12 +55,10 @@ module.exports = function (util) {
               },
             });
           }
-
           if (ctx.tailwind) {
             config.plugins.push('prettier-plugin-tailwindcss');
           }
-
-          util.writeFile('.prettierrc', JSON.stringify(config, null, 2) + require('os').EOL);
+          util.fs.writeFileSync('.prettierrc', JSON.stringify(config, null, 2) + require('os').EOL, 'utf-8');
         },
       },
     ],
