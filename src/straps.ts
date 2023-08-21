@@ -1,85 +1,55 @@
-import Listr, {ListrContext, ListrOptions, ListrTask} from 'listr';
+import type {ListrContext, ListrOptions, ListrTask} from 'listr';
 import path from 'node:path';
-import {copyFileSync, readFileSync, existsSync, mkdirSync, readdirSync, writeFileSync} from 'node:fs';
-import {util} from './util';
+import {readdirSync, readFileSync, writeFileSync} from 'node:fs';
+import {StrapUtils, util} from './util';
 import slugify from 'slugify';
+import UserConfig from './config';
+import {Config} from '@oclif/core';
 
 export interface Strap {
-  name: string;
-  tasks: ListrTask[];
-  skip?: () => Promise<string | boolean> | Promise<string | boolean>[];
-  context?: () => Promise<ListrContext>;
-  options?: ListrOptions;
+    name: string;
+    tasks: ListrTask[];
+    skip?: () => Promise<string | boolean> | Promise<string | boolean>[];
+    context?: () => Promise<ListrContext>;
+    options?: ListrOptions;
 }
 
-let straps: Strap[] | null = null;
+export default class UserStraps {
+    userConfig: UserConfig;
+    straps: Strap[];
 
-const ensureConfigExists = (configDir: string): void => {
-  const strapsFolder = path.resolve(configDir, 'straps');
-  if (!existsSync(strapsFolder)) {
-    mkdirSync(strapsFolder, {recursive: true});
-    // Add util.d.ts
-    copyFileSync(
-      // eslint-disable-next-line unicorn/prefer-module
-      path.resolve(__dirname, '../dist/client-utils.d.ts'),
-      path.resolve(strapsFolder, 'index.d.ts'),
-    );
-  }
-};
+    constructor(userConfig: UserConfig) {
+        this.userConfig = userConfig;
+        this.straps = this.resolveStraps();
+    }
 
-export const allStraps = (configDir: string): Strap[] => {
-  if (straps === null) {
-    straps = [];
-    ensureConfigExists(configDir);
-    const strapsFolder = path.resolve(configDir, 'straps');
-    for (const file of readdirSync(strapsFolder)) {
-      const filePath = path.resolve(strapsFolder, file);
-      if (/\.js$/.test(file)) {
-        // eslint-disable-next-line unicorn/prefer-module
-        let strap = require(filePath);
-        if (typeof strap === 'function') {
-          strap = strap(util);
+    resolveStraps(): Strap[] {
+        return this.userConfig.getStrapFiles().map(filePath => {
+            // eslint-disable-next-line unicorn/prefer-module
+            const generator: (util: StrapUtils) => Strap = require(filePath).default;
+            return generator(util);
+        });
+    }
+
+    findStrap(name: string): Strap | null {
+        return this.straps.find(strap => strap.name === name) || null;
+    }
+
+    create(name: string): string {
+        const filename = slugify(name) + '-strap.ts';
+        const strapsFolder = this.userConfig.getStrapsFolder();
+        const filepath = path.resolve(strapsFolder, filename);
+        if (readdirSync(strapsFolder).includes(filename)) {
+            throw new Error(`${filename} already exists in ${strapsFolder}`);
         }
 
-        strap.tasks = strap.tasks.map((task: ListrTask) => prepareStrapTask(task));
-        straps.push(strap);
-      }
+        // eslint-disable-next-line unicorn/prefer-module
+        const content = readFileSync(path.resolve(__dirname, '../stub/strap-stub.ts'), 'utf-8').replace('%name%', name);
+        writeFileSync(filepath, content, 'utf-8');
+        return filepath;
     }
-  }
 
-  return straps;
-};
-
-export const resolveStrap = async (
-  name: string,
-  configDir: string,
-): Promise<Strap | null> => allStraps(configDir).find(strap => strap.name === name) || null;
-
-/**
- * Convert tasks in array form to Listr
- * @param {ListrTask} task Task or array of tasks
- * @returns ListrTask
- */
-const prepareStrapTask = (task: ListrTask): ListrTask => {
-  if (Array.isArray(task.task)) {
-    const tasks = task.task.map(task => prepareStrapTask(task));
-    task.task = () => new Listr(tasks);
-  }
-
-  return task;
-};
-
-export const createStrap = (name: string, configDir: string): string => {
-  ensureConfigExists(configDir);
-  const strapsFolder = path.resolve(configDir, 'straps');
-  const filename = slugify(name) + '.js';
-  const filepath = path.resolve(strapsFolder, filename);
-  if (readdirSync(strapsFolder).includes(filename)) {
-    throw new Error(`${filename} already exists in ${strapsFolder}`);
-  }
-
-  // eslint-disable-next-line unicorn/prefer-module
-  const content = readFileSync(path.resolve(__dirname, '../stub/strap-stub.js'), 'utf-8').replace('%name%', name);
-  writeFileSync(filepath, content, 'utf-8');
-  return filepath;
-};
+    static resolve(config: Config): UserStraps {
+        return new UserStraps(UserConfig.resolve(config));
+    }
+}

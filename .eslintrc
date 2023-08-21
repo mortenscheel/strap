@@ -6,6 +6,8 @@
   "plugins": ["import"],
   "rules": {
     "semi": ["error", "always"],
+    "indent": "off",
+    "@typescript-eslint/indent": ["error", 4],
     "unicorn/no-abusive-eslint-disable": "off",
     "node/no-missing-import": "off",
     "import/no-unresolved": "error"

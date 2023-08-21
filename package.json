@@ -17,18 +17,19 @@
     "/oclif.manifest.json"
   ],
   "dependencies": {
+    "@inquirer/prompts": "^3.0.3",
     "@oclif/core": "^2",
     "@types/execa": "^2.0.0",
-    "@types/inquirer": "^8.2.6",
+    "@types/inquirer": "^9.0.3",
     "@types/js-yaml": "^4.0.5",
     "@types/listr": "^0.14.4",
     "eslint-import-resolver-typescript": "^3.6.0",
     "eslint-plugin-import": "^2.28.0",
     "execa": "^5.1.1",
-    "inquirer": "^8.2.6",
     "js-yaml": "^4.1.0",
     "listr": "^0.14.3",
     "open": "^9.1.0",
+    "rxjs": "^7.8.1",
     "slugify": "^1.6.6",
     "tsconfig-paths": "^4.2.0"
   },

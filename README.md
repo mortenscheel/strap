@@ -32,7 +32,7 @@ See the examples folder
 <!-- commands -->
 * [`strap create [NAME]`](#strap-create-name)
 * [`strap edit NAME`](#strap-edit-name)
-* [`strap install NAME`](#strap-install-name)
+* [`strap install [NAME]`](#strap-install-name)
 * [`strap list`](#strap-list)
 
 ## `strap create [NAME]`
@@ -75,13 +75,13 @@ EXAMPLES
 
 _See code: [dist/commands/edit.ts](https://github.com/mortenscheel/strap/blob/v0.0.1/dist/commands/edit.ts)_
 
-## `strap install NAME`
+## `strap install [NAME]`
 
 install a strap
 
 ```
 USAGE
-  $ strap install NAME
+  $ strap install [NAME]
 
 ARGUMENTS
   NAME  Name of the strap to install
