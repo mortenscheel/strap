@@ -33,6 +33,7 @@ declare global {
 
     export interface Strap {
         name: string;
+        description?: string;
         tasks: ListrTask[];
         skip?: () => Promise<string | boolean> | Promise<string | boolean>[];
         context?: () => Promise<ListrContext>;

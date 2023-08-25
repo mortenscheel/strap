@@ -1,3 +1,4 @@
+/* eslint-disable no-await-in-loop */
 import {Args, Command} from '@oclif/core';
 import UserStraps from '../straps';
 import Listr, {ListrContext} from 'listr';
@@ -17,24 +18,28 @@ export default class Install extends Command {
     public async run(): Promise<void> {
         const {args} = await this.parse(Install);
         let name = args.name;
+        const userStraps = UserStraps.resolve(this.config);
         if (!name) {
-            name = await util.inquirer.input({message: 'Name'});
-            if (!name) {
-                this.error('No name provided');
-            }
+            name = await util.inquirer.select({
+                message: 'Select strap',
+                choices: userStraps.straps.map(strap => ({
+                    name: strap.name,
+                    value: strap.name,
+                    description: strap.description,
+                })),
+            });
         }
 
-        const strap = UserStraps.resolve(this.config).findStrap(name);
+        const strap = userStraps.findStrap(name);
         if (!strap) {
             this.log(`${name} not found`);
             this.exit(1);
         }
 
         if (strap.skip) {
-            const skips = Array.isArray(strap.skip) ? strap.skip : [strap.skip];
-            for (const skip of skips) {
-                // eslint-disable-next-line no-await-in-loop
-                const skipReason = await skip();
+            const skipTests = Array.isArray(strap.skip) ? strap.skip : [strap.skip];
+            for (const skipTest of skipTests) {
+                const skipReason = await skipTest();
                 if (skipReason) {
                     this.log(skipReason);
                     this.exit(1);
@@ -48,7 +53,7 @@ export default class Install extends Command {
         }
 
         const tasks = new Listr(strap.tasks, strap.options || {});
-        tasks.run(context)
+        await tasks.run(context)
             .catch(error => {
                 this.error(error);
             });

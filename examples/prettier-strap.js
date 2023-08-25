@@ -4,6 +4,7 @@
  */
 module.exports = util => ({
     name: 'prettier',
+    description: 'Javascript linter and fixer',
     context: async () => {
         const selection = await util.inquirer.checkbox({
             message: 'Select plugins (optional)',

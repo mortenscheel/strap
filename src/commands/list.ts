@@ -14,8 +14,11 @@ export default class List extends Command {
 
     public async run(): Promise<void> {
         const {flags} = await this.parse(List);
-        const rows = UserStraps.resolve(this.config).straps.map(strap => JSON.parse(JSON.stringify(strap)));
-        ux.table(rows, {name: {}}, {
+        const rows = UserStraps.resolve(this.config).straps.map(strap => ({
+            description: 'No description',
+            ...JSON.parse(JSON.stringify(strap)),
+        }));
+        ux.table(rows, {name: {}, description: {}}, {
             printLine: this.log.bind(this),
             ...flags,
         });

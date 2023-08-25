@@ -19,7 +19,7 @@ $ npm install -g strap
 $ strap COMMAND
 running command...
 $ strap (--version)
-strap/0.0.1 darwin-arm64 node-v20.1.0
+strap/0.0.1 linux-x64 node-v20.5.0
 $ strap --help [COMMAND]
 USAGE
   $ strap COMMAND

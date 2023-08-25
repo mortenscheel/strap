@@ -4,6 +4,7 @@
  */
 module.exports = util => ({
     name: 'larastan',
+    description: 'Static analysis for Laravel',
     skip: async () => (util.project.isLaravel() ? false : 'Larastan requires a Laravel project'),
     context: async () => {
         const level = await util.inquirer.input({

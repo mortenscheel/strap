@@ -4,6 +4,7 @@
  */
 module.exports = util => ({
     name: 'grumphp',
+    description: 'Automatic quality checks before git commit',
     context: async () => {
         const selection = await util.inquirer.checkbox({
             message: 'Select pre-commit checks',
