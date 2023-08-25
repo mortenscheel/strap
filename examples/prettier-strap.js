@@ -1,16 +1,18 @@
-"use strict";
-/// <reference types="./types" />
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.default = (util) => ({
+/**
+ * @param {import('./types').StrapUtils} util
+ * @returns {import('./types').Strap}
+ */
+module.exports = util => ({
     name: 'prettier',
     context: async () => {
         const selection = await util.inquirer.checkbox({
             message: 'Select plugins (optional)',
             choices: [
-                { name: 'Blade', value: 'blade' },
-                { name: 'TailwindCSS', value: 'tailwind' },
+                {name: 'Blade', value: 'blade'},
+                {name: 'TailwindCSS', value: 'tailwind'},
             ],
         });
+
         return selection.reduce((acc, val) => {
             acc[val] = true;
             return acc;
@@ -50,12 +52,13 @@ exports.default = (util) => ({
                         },
                     });
                 }
+
                 if (ctx.tailwind) {
                     config.plugins.push('prettier-plugin-tailwindcss');
                 }
+
                 util.fs.writeFileSync('.prettierrc', JSON.stringify(config, null, 2) + util.os.EOL, 'utf-8');
             },
         },
     ],
 });
-//# sourceMappingURL=prettier-strap.js.map

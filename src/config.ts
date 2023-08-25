@@ -15,6 +15,10 @@ export default class UserConfig {
 
     constructor(config: Config) {
         this.configDir = config.configDir;
+        if (!existsSync(this.configDir)) {
+            mkdirSync(this.configDir);
+        }
+
         this.configPath = path.resolve(this.configDir, 'config.yml');
         if (existsSync(this.configPath)) {
             this.data = <UserConfigData>yaml.load(readFileSync(this.configPath, 'utf-8'));
@@ -41,7 +45,7 @@ export default class UserConfig {
 
     getStrapFiles(): string[] {
         return readdirSync(this.getStrapsFolder(), 'utf-8')
-            .filter(filename => /-strap\.ts$/.test(filename))
+            .filter(filename => /-strap\.js$/.test(filename))
             .map(filename => path.resolve(this.getStrapsFolder(), filename));
     }
 

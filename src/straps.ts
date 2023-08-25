@@ -26,7 +26,7 @@ export default class UserStraps {
     resolveStraps(): Strap[] {
         return this.userConfig.getStrapFiles().map(filePath => {
             // eslint-disable-next-line unicorn/prefer-module
-            const generator: (util: StrapUtils) => Strap = require(filePath).default;
+            const generator: (util: StrapUtils) => Strap = require(filePath);
             return generator(util);
         });
     }
@@ -36,7 +36,7 @@ export default class UserStraps {
     }
 
     create(name: string): string {
-        const filename = slugify(name) + '-strap.ts';
+        const filename = slugify(name) + '-strap.js';
         const strapsFolder = this.userConfig.getStrapsFolder();
         const filepath = path.resolve(strapsFolder, filename);
         if (readdirSync(strapsFolder).includes(filename)) {
@@ -44,7 +44,7 @@ export default class UserStraps {
         }
 
         // eslint-disable-next-line unicorn/prefer-module
-        const content = readFileSync(path.resolve(__dirname, '../stub/strap-stub.ts'), 'utf-8').replace('%name%', name);
+        const content = readFileSync(path.resolve(__dirname, '../stub/strap-stub.js'), 'utf-8').replace('%name%', name);
         writeFileSync(filepath, content, 'utf-8');
         return filepath;
     }

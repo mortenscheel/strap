@@ -1,24 +1,28 @@
-"use strict";
-/// <reference types="./types" />
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.default = (util) => ({
+/**
+ * @param {import('./types').StrapUtils} util
+ * @returns {import('./types').Strap}
+ */
+module.exports = util => ({
     name: 'grumphp',
     context: async () => {
         const selection = await util.inquirer.checkbox({
             message: 'Select pre-commit checks',
             choices: [
-                { name: 'PHPUnit', value: 'phpunit' },
-                { name: 'PhpStan', value: 'phpstan' },
-                { name: 'Composer Normalize', value: 'normalize' },
-                { name: 'Pint', value: 'pint' },
+                {name: 'PHPUnit', value: 'phpunit'},
+                {name: 'PhpStan', value: 'phpstan'},
+                {name: 'Composer Normalize', value: 'normalize'},
+                {name: 'Pint', value: 'pint'},
             ],
         });
-        return selection.reduce((acc, val) => {
-            acc[val] = true;
-            return acc;
-        }, {
-            configExists: util.fs.existsSync('grumphp.yml'),
-        });
+        return selection.reduce(
+            (acc, val) => {
+                acc[val] = true;
+                return acc;
+            },
+            {
+                configExists: util.fs.existsSync('grumphp.yml'),
+            },
+        );
     },
     tasks: [
         {
@@ -48,7 +52,8 @@ exports.default = (util) => ({
             task: () => new util.Listr([
                 {
                     title: 'Enable composer plugin',
-                    task: () => util.execa('composer', ['config', '--no-plugins', 'allow-plugins.ergebnis/composer-normalize', 'true']),
+                    task: () =>
+                        util.execa('composer', ['config', '--no-plugins', 'allow-plugins.ergebnis/composer-normalize', 'true']),
                 },
                 {
                     title: 'Install package',
@@ -68,22 +73,25 @@ exports.default = (util) => ({
                     config.extensions.push('YieldStudio\\GrumPHPLaravelPint\\ExtensionLoader');
                     config.tasks.laravel_pint = null;
                 }
+
                 if (ctx.normalize) {
                     config.tasks.composer_normalize = null;
                 }
+
                 if (ctx.phpstan) {
                     config.tasks.phpstan = {
                         memory_limit: '-1',
                         use_grumphp_paths: false,
                     };
                 }
+
                 if (ctx.phpunit) {
                     config.tasks.phpunit = null;
                 }
-                const yaml = util.yaml.dump({ grumphp: config });
+
+                const yaml = util.yaml.dump({grumphp: config});
                 util.fs.writeFileSync('grumphp.yml', yaml, 'utf-8');
             },
         },
     ],
 });
-//# sourceMappingURL=grumphp-strap.js.map

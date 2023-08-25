@@ -1,7 +1,8 @@
-"use strict";
-/// <reference types="./types" />
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.default = (util) => ({
+/**
+ * @param {import('./types').StrapUtils} util
+ * @returns {import('./types').Strap}
+ */
+module.exports = util => ({
     name: 'laravel-debugbar',
     skip: async () => util.project.hasComposerPackage('barryvdh/laravel-debugbar'),
     tasks: [
@@ -17,4 +18,3 @@ exports.default = (util) => ({
         },
     ],
 });
-//# sourceMappingURL=laravel-debugbar-strap.js.map

@@ -5,12 +5,11 @@ import yaml from 'js-yaml';
 import * as fs from 'node:fs';
 import * as inquirer from '@inquirer/prompts';
 import Listr from 'listr';
-import type {ListrContext as _ListrContext, ListrOptions as _ListrOptions, ListrTask as _ListrTask} from 'listr';
+import type {ListrOptions as _ListrOptions, ListrTask as _ListrTask} from 'listr';
 import * as os from 'node:os';
 
 declare global {
-    export interface ListrContext extends _ListrContext {
-    }
+    type ListrContext = any;
 
     export interface ListrOptions extends _ListrOptions {
     }
