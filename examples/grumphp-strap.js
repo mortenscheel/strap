@@ -14,14 +14,10 @@ module.exports = util => ({
                 {name: 'Pint', value: 'pint'},
             ],
         });
-        return selection.reduce(
-            (acc, val) => {
-                acc[val] = true;
+        return selection.reduce((acc, val) => {
+            acc[val] = true;
                 return acc;
-            },
-            {
-                configExists: util.fs.existsSync('grumphp.yml'),
-            },
+            },{ configExists: util.fs.existsSync('grumphp.yml')},
         );
     },
     tasks: [

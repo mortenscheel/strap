@@ -10,6 +10,6 @@ module.exports = util => ({
     },
     skip: async () => false, // Return true (or string) if this strap shouldn't run
     tasks: [
-    // See https://github.com/SBoudrias/Inquirer.js/tree/master/packages/inquirer
+    // See https://github.com/SBoudrias/Inquirer.js
     ],
 });
