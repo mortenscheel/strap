@@ -1,0 +1,10 @@
+name: "laravel-excel"
+description: "Import and export Excel from Laravel"
+tasks:
+    - title: Install composer dependencies
+      type: command
+      command: "composer require maatwebsite/excel"
+
+    - title: Publish config
+      type: command
+      command: "php artisan vendor:publish --provider=Maatwebsite\\Excel\\ExcelServiceProvider --tag=config"

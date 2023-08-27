@@ -4,6 +4,7 @@
  */
 module.exports = util => ({
     name: '%name%',
+    description: 'Optional description',
     context: async () => {
     // Optionally add values to the context object passed to tasks
         return {};

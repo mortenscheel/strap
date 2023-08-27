@@ -1,0 +1,4 @@
+name: "%name%"
+description: "Optional description"
+tasks:
+    - # Add tasks here

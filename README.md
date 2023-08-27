@@ -41,10 +41,13 @@ Create a new strap
 
 ```
 USAGE
-  $ strap create [NAME]
+  $ strap create [NAME] [-t <value>]
 
 ARGUMENTS
   NAME  name of the new strap
+
+FLAGS
+  -t, --type=<value>  [default: json] Strap type (js, json or yml)
 
 DESCRIPTION
   Create a new strap

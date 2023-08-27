@@ -1,0 +1,29 @@
+name: "larastan-simple"
+description: "Larastan simple version"
+tasks:
+    - title: Install composer dependencies
+      type: command
+      command: composer require --dev nunomaduro/larastan
+
+    - title: Publish config
+      type: file
+      path: phpstan.neon
+      content: |-
+          includes:
+              - ./vendor/nunomaduro/larastan/extension.neon
+
+          parameters:
+
+              paths:
+                  - app/
+
+              # Level 9 is the highest level
+              level: 8
+
+          #    ignoreErrors:
+          #        - '#PHPDoc tag @var#'
+          #
+          #    excludePaths:
+          #       - ./app/Console/Commands/Local/*
+          #
+              checkMissingIterableValueType: false

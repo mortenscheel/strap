@@ -1,0 +1,16 @@
+{
+    "name": "laravel-debugbar",
+    "description": "Install Laravel Debugbar",
+    "tasks": [
+        {
+            "title": "Install composer dependencies",
+            "type": "command",
+            "command": "composer require --dev barryvdh/laravel-debugbar",
+        },
+        {
+            "title": "Publish config",
+            "type": "command",
+            "command": "php artisan vendor:publish --provider=Barryvdh\\Debugbar\\ServiceProvider",
+        }
+    ]
+}

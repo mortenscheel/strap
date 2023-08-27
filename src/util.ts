@@ -5,8 +5,7 @@ import {Package} from './types/composer';
 import * as inquirer from '@inquirer/prompts';
 import Listr from 'listr';
 import * as os from 'node:os';
-
-const readJson = <T = Record<string, unknown>>(path: string): T => JSON.parse(fs.readFileSync(path, 'utf-8'));
+import {parseJsonFile} from './straps';
 
 export interface StrapUtils {
     execa: (command: string, args?: readonly string[], options?: Options) => Promise<ExecaReturnValue>;
@@ -31,7 +30,7 @@ export const util: StrapUtils = {
     project: {
         isLaravel: (): boolean => {
             try {
-                const data = readJson<Package>('composer.json');
+                const data = parseJsonFile<Package>('composer.json');
                 const packages = Object.keys(data.require!);
                 return packages.includes('laravel/framework');
             } catch {
