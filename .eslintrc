@@ -1,30 +1,39 @@
 {
-  "extends": [
-    "oclif",
-    "oclif-typescript"
-  ],
-  "plugins": ["import"],
-  "rules": {
-    "semi": ["error", "always"],
-    "indent": "off",
-    "@typescript-eslint/indent": ["error", 4],
-    "unicorn/no-abusive-eslint-disable": "off",
-    "unicorn/prefer-module": "off",
-    "node/no-missing-import": "off",
-    "import/no-unresolved": "error"
-  },
-  "settings": {
-    "import/parsers": {
-      "@typescript-eslint/parser": [
-        ".ts",
-        ".tsx"
-      ]
+    "extends": [
+        "oclif",
+        "oclif-typescript"
+    ],
+    "plugins": [
+        "import"
+    ],
+    "rules": {
+        "semi": [
+            "error",
+            "always"
+        ],
+        "indent": "off",
+        "@typescript-eslint/indent": [
+            "error",
+            4
+        ],
+        "unicorn/no-abusive-eslint-disable": "off",
+        "unicorn/prefer-module": "off",
+        "node/no-missing-import": "off",
+        "import/no-unresolved": "error",
+        "no-await-in-loop": "off"
     },
-    "import/resolver": {
-      "typescript": {
-        "alwaysTryTypes": true,
-        "project": "."
-      }
+    "settings": {
+        "import/parsers": {
+            "@typescript-eslint/parser": [
+                ".ts",
+                ".tsx"
+            ]
+        },
+        "import/resolver": {
+            "typescript": {
+                "alwaysTryTypes": true,
+                "project": "."
+            }
+        }
     }
-  }
 }

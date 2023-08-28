@@ -1,4 +1,3 @@
-/* eslint-disable no-await-in-loop */
 import {Args, Command} from '@oclif/core';
 import UserStraps from '../straps';
 import Listr, {ListrContext} from 'listr';

@@ -47,7 +47,7 @@ export default class UserConfig {
         const additionalFolders = (this.data.additionalFolders || []).map(extraPath => path.resolve(this.configDir, extraPath));
         return [this.getStrapsFolder(), ...additionalFolders]
             .flatMap(folder => readdirSync(folder, 'utf-8').map(filename => path.resolve(folder, filename)))
-            .filter(filePath => UserStraps.extensions.includes(path.parse(filePath).ext));
+            .filter(filePath => UserStraps.extensions.includes(path.parse(filePath).ext.replace(/^\./, '')));
     }
 
     static resolve(config: Config): UserConfig {
